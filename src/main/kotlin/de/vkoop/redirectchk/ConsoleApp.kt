@@ -1,6 +1,6 @@
 package de.vkoop.redirectchk
 
-import de.vkoop.redirectchk.services.RedirectCheck
+import de.vkoop.redirectchk.services.RedirectCheckEngine
 import de.vkoop.redirectchk.services.input.ExcelReader
 import org.springframework.boot.Banner
 import org.springframework.boot.CommandLineRunner
@@ -29,7 +29,7 @@ class CmdRunner : CommandLineRunner {
     lateinit var reader : ExcelReader
 
     @Inject
-    lateinit var checker : RedirectCheck
+    lateinit var redirectCheckEngine : RedirectCheckEngine
 
     override fun run(vararg args: String?) {
         if(args.isEmpty()) {
@@ -41,8 +41,6 @@ class CmdRunner : CommandLineRunner {
         val fileInputStream = FileInputStream(fileName)
 
         val checks = reader.read(fileInputStream)
-
-        checks.map ( checker::check )
-                .forEach { println(it)}
+        redirectCheckEngine.check(checks)
     }
 }
