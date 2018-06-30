@@ -21,9 +21,9 @@ class RedirectConsoleReporter : RedirectCheckReporter {
 }
 
 fun printSuccess(txt : String) {
-    println("\u001b[32m" + txt)
+    println("\u001b[32m$txt")
 }
 
 fun printError(txt : String) {
-    println("\u001b[31m" + txt)
+    println("\u001b[31m$txt")
 }
