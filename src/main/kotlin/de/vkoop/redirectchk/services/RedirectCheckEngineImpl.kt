@@ -12,7 +12,7 @@ class RedirectCheckEngineImpl : RedirectCheckEngine {
     lateinit var  reporterRedirects: List<RedirectCheckReporter>;
 
     @Inject
-    lateinit var checker: RedirectCheck
+    lateinit var checker: RedirectCheckStrategy
 
     override fun check(checks: List<RedirectCheckRequest>) {
         val results = checks.map { checker.check(it) }

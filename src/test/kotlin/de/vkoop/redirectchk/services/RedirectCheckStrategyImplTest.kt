@@ -11,7 +11,7 @@ import kotlin.test.assertTrue
 
 
 @RunWith(JUnit4::class)
-class RedirectCheckImplTest {
+class RedirectCheckStrategyImplTest {
 
     private val port = 8089
 
@@ -20,7 +20,7 @@ class RedirectCheckImplTest {
     val wireMockRule = WireMockRule(port) // No-args constructor defaults to port 8080
 
 
-    val check: RedirectCheck = RedirectCheckImpl();
+    val checkStrategy: RedirectCheckStrategy = RedirectCheckStrategyImpl();
 
     @Test
     fun tests() {
@@ -39,7 +39,7 @@ class RedirectCheckImplTest {
 
         val request = RedirectCheckRequest("http://localhost:$port$sourceUrl", "http://localhost:$port$redirectUrl")
 
-        val response = check.check(request)
+        val response = checkStrategy.check(request)
         assertTrue(response.actualUrl == request.targetUrl)
     }
 }

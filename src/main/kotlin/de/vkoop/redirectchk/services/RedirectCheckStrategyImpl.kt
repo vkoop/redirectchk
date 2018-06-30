@@ -8,16 +8,19 @@ import org.springframework.web.reactive.function.client.WebClient
 import java.net.URI
 
 @Component
-class RedirectCheckImpl : RedirectCheck {
+class RedirectCheckStrategyImpl : RedirectCheckStrategy {
 
     override fun check(request: RedirectCheckRequest): RedirectCheckResponse {
         val client = WebClient.create();
-        val redirectSteps = client.follow(URI.create(request.callUrl)).collectList().block()
+        val hops = client.follow(URI.create(request.callUrl))
+                .map { Pair(it.url, it.response.statusCode().value()) }
+                .collectList()
+                .block()
 
-        val lastHop = redirectSteps.last()
-        val firstHop = redirectSteps.first()
+        val success = (hops.first().second == request.statusCode)
+                && hops.last().first == request.targetUrl
 
-        val response = RedirectCheckResponse(request, lastHop.url, firstHop.response.statusCode().value())
+        val response = RedirectCheckResponse(request, hops, success)
 
         return response
     }
