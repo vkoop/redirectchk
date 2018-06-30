@@ -1,5 +1,6 @@
 package de.vkoop.redirectchk.services
 
+import de.vkoop.redirectchk.data.ClientResponseWithUrl
 import de.vkoop.redirectchk.data.RedirectCheckRequest
 import de.vkoop.redirectchk.data.RedirectCheckResponse
 import org.springframework.stereotype.Component
@@ -48,4 +49,3 @@ class RedirectCheckImpl : RedirectCheck {
     }
 }
 
-data class ClientResponseWithUrl(val response: ClientResponse, val url: String)
