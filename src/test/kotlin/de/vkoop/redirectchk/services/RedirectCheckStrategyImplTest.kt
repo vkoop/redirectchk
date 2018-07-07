@@ -6,21 +6,23 @@ import de.vkoop.redirectchk.data.RedirectCheckRequest
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.runners.JUnit4
+import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.junit4.SpringRunner
+import javax.inject.Inject
 import kotlin.test.assertTrue
 
-
-@RunWith(JUnit4::class)
+@RunWith(SpringRunner::class)
+@SpringBootTest
 class RedirectCheckStrategyImplTest {
 
     private val port = 8089
 
     @JvmField
     @Rule
-    val wireMockRule = WireMockRule(port) // No-args constructor defaults to port 8080
+    final val wireMockRule = WireMockRule(port) // No-args constructor defaults to port 8080
 
-
-    val checkStrategy: RedirectCheckStrategy = RedirectCheckStrategyImpl();
+    @Inject
+    lateinit var checkStrategy: RedirectCheckStrategy
 
     @Test
     fun tests() {
