@@ -8,7 +8,8 @@ import java.net.URI
 
 
 fun WebClient.follow(requestUriString: URI): Flux<ClientResponseWithUrl> {
-    return get().uri(requestUriString)
+    return get()
+            .uri(requestUriString)
             .exchange()
             .toFlux()
             .flatMap { response ->

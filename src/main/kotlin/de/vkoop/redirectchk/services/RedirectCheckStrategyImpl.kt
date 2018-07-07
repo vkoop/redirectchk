@@ -6,12 +6,16 @@ import de.vkoop.redirectchk.util.follow
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.client.WebClient
 import java.net.URI
+import javax.inject.Inject
 
 @Component
 class RedirectCheckStrategyImpl : RedirectCheckStrategy {
 
+    @Inject
+    lateinit var client: WebClient
+
+
     override fun check(request: RedirectCheckRequest): RedirectCheckResponse {
-        val client = WebClient.create();
         val hops = client.follow(URI.create(request.callUrl))
                 .map { Pair(it.url, it.response.statusCode().value()) }
                 .collectList()
@@ -24,6 +28,7 @@ class RedirectCheckStrategyImpl : RedirectCheckStrategy {
 
         return response
     }
+
 
 }
 
