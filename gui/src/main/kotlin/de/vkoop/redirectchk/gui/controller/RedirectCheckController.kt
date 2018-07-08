@@ -23,12 +23,11 @@ class RedirectCheckController : Controller() {
     }
 
     fun loadChecks() {
-        chooseFile("", emptyArray()).firstOrNull()
-                .apply {
-                    val fileInputStream = FileInputStream(this)
-                    inputReader.read(fileInputStream)
-                            .map { RedirectCheckRowViewModel(it) }
-                            .apply { checks.addAll(this) }
-                }
+        chooseFile("", emptyArray()).firstOrNull()?.apply {
+            val fileInputStream = FileInputStream(this)
+            inputReader.read(fileInputStream)
+                    .map { RedirectCheckRowViewModel(it) }
+                    .apply { checks.addAll(this) }
+        }
     }
 }
