@@ -1,7 +1,7 @@
 package de.vkoop.redirectchk.gui
 
 import de.vkoop.redirectchk.gui.controller.RedirectCheckController
-import de.vkoop.redirectchk.gui.model.RedirectCheckResponseModel
+import de.vkoop.redirectchk.gui.model.RedirectCheckRowViewModel
 import tornadofx.*
 
 class MainView : View("My View") {
@@ -10,22 +10,30 @@ class MainView : View("My View") {
 
     override val root = borderpane {
         top {
-            button("execute") {
-                action {
-                    controller.executeChecks()
+            hbox {
+                button("load") {
+                    action {
+                        controller.loadChecks()
+                    }
+                }
+                button("execute") {
+                    action {
+                        controller.executeChecks()
+                    }
                 }
             }
         }
         center {
-            tableview(controller.checkResults){
-                column("Url", RedirectCheckResponseModel::callUrl)
-                column("Target", RedirectCheckResponseModel::targetUrl)
-                column("Code", RedirectCheckResponseModel::expectedStatusCode)
-                column("Actual Target", RedirectCheckResponseModel::actualTarget)
-                column("First code", RedirectCheckResponseModel::firstCode)
-                column("Success", RedirectCheckResponseModel::success)
+            vbox {
+                tableview(controller.checks){
+                    column("Url", RedirectCheckRowViewModel::callUrl)
+                    column("Target", RedirectCheckRowViewModel::targetUrl)
+                    column("Code", RedirectCheckRowViewModel::statusCode)
+                    column("Actual Target", RedirectCheckRowViewModel::actualRedirectUrl)
+                    column("First code", RedirectCheckRowViewModel::firstCode)
 
-                columnResizePolicy = SmartResize.POLICY
+                    columnResizePolicy = SmartResize.POLICY
+                }
             }
         }
     }

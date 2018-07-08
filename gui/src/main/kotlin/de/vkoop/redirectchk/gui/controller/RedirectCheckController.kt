@@ -1,6 +1,6 @@
 package de.vkoop.redirectchk.gui.controller
 
-import de.vkoop.redirectchk.gui.model.RedirectCheckResponseModel
+import de.vkoop.redirectchk.gui.model.RedirectCheckRowViewModel
 import de.vkoop.redirectchk.services.RedirectCheckStrategy
 import de.vkoop.redirectchk.services.input.ExcelReader
 import javafx.collections.FXCollections
@@ -10,22 +10,25 @@ import java.io.FileInputStream
 
 class RedirectCheckController : Controller() {
 
-    val checkStrategy : RedirectCheckStrategy by di()
-    val inputReader : ExcelReader by di()
+    val checkStrategy: RedirectCheckStrategy by di()
+    val inputReader: ExcelReader by di()
 
-    var checkResults: ObservableList<RedirectCheckResponseModel> = FXCollections.observableArrayList()
+    var checks: ObservableList<RedirectCheckRowViewModel> = FXCollections.observableArrayList()
 
-    fun executeChecks(){
-        val fileInputStream = FileInputStream("testdata/test.xlsx")
-        val toCheck = inputReader.read(fileInputStream)
-        val responses = toCheck.map(checkStrategy::check)
-
-        responses.map { val redirectCheckResponseModel = RedirectCheckResponseModel()
-
-            redirectCheckResponseModel.item = it
-            redirectCheckResponseModel
-        }.forEach {
-            checkResults.add(it)
+    fun executeChecks() {
+        checks.forEach {
+            it.response = checkStrategy.check(it.request)
+            it.rollback()
         }
+    }
+
+    fun loadChecks() {
+        chooseFile("", emptyArray()).firstOrNull()
+                .apply {
+                    val fileInputStream = FileInputStream(this)
+                    inputReader.read(fileInputStream)
+                            .map { RedirectCheckRowViewModel(it) }
+                            .apply { checks.addAll(this) }
+                }
     }
 }

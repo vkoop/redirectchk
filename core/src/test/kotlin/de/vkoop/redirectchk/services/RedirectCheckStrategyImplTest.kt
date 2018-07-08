@@ -42,6 +42,6 @@ class RedirectCheckStrategyImplTest {
         val request = RedirectCheckRequest("http://localhost:$port$sourceUrl", "http://localhost:$port$redirectUrl")
 
         val response = checkStrategy.check(request)
-        assertTrue(response.hops.last().first == request.targetUrl)
+        assertTrue(response.redirectHops.last().first == request.targetUrl)
     }
 }
