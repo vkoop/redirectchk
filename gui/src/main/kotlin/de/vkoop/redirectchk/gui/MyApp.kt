@@ -1,5 +1,6 @@
 package de.vkoop.redirectchk.gui
 
+import javafx.application.Application
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.context.annotation.ComponentScan
@@ -21,3 +22,6 @@ class MyApp: App(MainView::class, AppStyle::class){
     }
 }
 
+fun main(args: Array<String>) {
+    Application.launch(MyApp::class.java)
+}
