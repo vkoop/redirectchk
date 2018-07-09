@@ -1,6 +1,3 @@
-apply plugin: "kotlin"
-apply plugin: "kotlin-spring"
-apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 dependencies {
@@ -24,10 +21,6 @@ dependencies {
     testCompile "com.github.tomakehurst:wiremock:2.18.0"
 }
 
-compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+dependencyManagement {
+    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
 }
-compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
-sourceCompatibility = "1.8"
