@@ -17,7 +17,5 @@ class AppStyle : Stylesheet(){
         failureCell {
             backgroundColor += c(255,0,0,1.0)
         }
-
-
     }
 }

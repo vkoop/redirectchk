@@ -1,12 +1,17 @@
 package de.vkoop.redirectchk.gui
 
 import de.vkoop.redirectchk.gui.controller.RedirectCheckController
+import de.vkoop.redirectchk.gui.model.RedirectCheckRequestModel
 import de.vkoop.redirectchk.gui.model.RedirectCheckRowViewModel
 import tornadofx.*
+import java.net.URI
+import java.net.URISyntaxException
 
 class MainView : View("My View") {
 
     val controller: RedirectCheckController by inject()
+
+    val newCheck: RedirectCheckRequestModel by inject()
 
     override val root = borderpane {
         top {
@@ -21,11 +26,19 @@ class MainView : View("My View") {
                         controller.executeChecks()
                     }
                 }
+                button("clear") {
+                    action {
+                        controller.clear()
+                    }
+                }
+
+                paddingAll = 5
+                spacing = 5.0
             }
         }
         center {
             vbox {
-                tableview(controller.checks){
+                tableview(controller.checks) {
                     column("Url", RedirectCheckRowViewModel::callUrl)
                     column("Target", RedirectCheckRowViewModel::targetUrl)
                     column("Code", RedirectCheckRowViewModel::statusCode)
@@ -34,8 +47,53 @@ class MainView : View("My View") {
 
                     columnResizePolicy = SmartResize.POLICY
                 }
+
+                form {
+                    fieldset {
+                        field("Source URL") {
+                            textfield(newCheck.callUrl) {
+                                required()
+                                validator {
+                                    urlValidation(it)
+                                }
+                            }
+                        }
+                        field("Target URL") {
+                            textfield(newCheck.targetUrl){
+                                required()
+                                validator {
+                                    urlValidation(it)
+                                }
+                            }
+                        }
+                        field("Status Code") {
+                            textfield(newCheck.statusCode) {
+                                required()
+                            }
+                        }
+                        button("Add check") {
+                            enableWhen(newCheck.valid)
+                            action {
+                                controller.addCheck(newCheck)
+                            }
+                        }
+                    }
+                }
             }
         }
+    }
+
+    private fun ValidationContext.urlValidation(value: String?): ValidationMessage? {
+        if(value.isNullOrEmpty()) return null
+        try {
+            val uri  = URI(value)
+            if(!uri.isAbsolute) {
+                return error("not absolute url")
+            }
+        } catch (e: URISyntaxException) {
+            return error("not valid url")
+        }
+        return null
     }
 }
 

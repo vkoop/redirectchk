@@ -15,4 +15,20 @@ class RedirectCheckRowViewModel(val request: RedirectCheckRequest) : ViewModel()
 
     val actualRedirectUrl = bind { response?.redirectHops?.lastOrNull()?.first.toProperty() }
     val firstCode = bind { response?.redirectHops?.firstOrNull()?.second.toProperty() }
+
+
+    init {
+        rebindOnChange(responseProperty)
+    }
+}
+
+class RedirectCheckRequestModel : ItemViewModel<RedirectCheckRequest>() {
+    val callUrl = bind(RedirectCheckRequest::callUrl)
+    val targetUrl = bind(RedirectCheckRequest::targetUrl)
+    val statusCode = bind { item?.statusCode?.toProperty() }
+
+    //TODO
+    init {
+        item = RedirectCheckRequest()
+    }
 }

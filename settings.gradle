@@ -1,3 +1,5 @@
 rootProject.name = 'redirectchk'
 
+ext["kotlin_version"] = "1.2.51"
+
 include ':core',':console',':gui'

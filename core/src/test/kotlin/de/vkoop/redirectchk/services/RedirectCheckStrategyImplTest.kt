@@ -7,7 +7,6 @@ import de.vkoop.redirectchk.data.RedirectCheckRequest
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.springframework.boot.SpringBootConfiguration
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
 import javax.inject.Inject
@@ -41,7 +40,7 @@ class RedirectCheckStrategyImplTest {
                 )
         )
 
-        val request = RedirectCheckRequest("http://localhost:$port$sourceUrl", "http://localhost:$port$redirectUrl")
+        val request = RedirectCheckRequest("http://localhost:$port$sourceUrl", "http://localhost:$port$redirectUrl", 301)
 
         val response = checkStrategy.check(request)
         assertTrue(response.redirectHops.last().first == request.targetUrl)
