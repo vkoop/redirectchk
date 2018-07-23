@@ -1,21 +1,22 @@
 package de.vkoop.redirectchk.gui
 
+import javafx.scene.paint.Color
 import tornadofx.*
 
 class AppStyle : Stylesheet(){
 
     companion object {
-        val successCell by cssclass("success-cell")
-        val failureCell by cssclass("failure-cell")
+        val successCell by cssclass("success")
+        val failureCell by cssclass("failure")
     }
 
     init {
         successCell {
-            backgroundColor += c(0,255,0,1.0)
+            backgroundColor += c("8BC34A")
         }
 
         failureCell {
-            backgroundColor += c(255,0,0,1.0)
+            backgroundColor += c("D32F2F")
         }
     }
 }

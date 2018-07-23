@@ -12,6 +12,7 @@ class WebClientConfig {
     @Bean
     fun createWebClient(): WebClient {
         return WebClient.builder()
+                //TODO move to configuration
                 .defaultHeader("Accept-Language", "de")
                 .build()
     }

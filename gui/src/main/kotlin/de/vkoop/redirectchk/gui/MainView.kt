@@ -3,6 +3,9 @@ package de.vkoop.redirectchk.gui
 import de.vkoop.redirectchk.gui.controller.RedirectCheckController
 import de.vkoop.redirectchk.gui.model.RedirectCheckRequestModel
 import de.vkoop.redirectchk.gui.model.RedirectCheckRowViewModel
+import javafx.scene.control.TableCell
+import javafx.scene.control.TableRow
+import javafx.util.Callback
 import tornadofx.*
 import java.net.URI
 import java.net.URISyntaxException
@@ -44,8 +47,17 @@ class MainView : View("My View") {
                     column("Code", RedirectCheckRowViewModel::statusCode)
                     column("Actual Target", RedirectCheckRowViewModel::actualRedirectUrl)
                     column("First code", RedirectCheckRowViewModel::firstCode)
+                    column("Success", RedirectCheckRowViewModel::success).cellFormat {
+                        if(it == true){
+                            addClass(AppStyle.successCell)
+                            removeClass(AppStyle.failureCell)
+                        } else {
+                            addClass(AppStyle.failureCell)
+                            removeClass(AppStyle.successCell)
+                        }
+                    }
 
-                    columnResizePolicy = SmartResize.POLICY
+                    //columnResizePolicy = SmartResize.POLICY
                 }
 
                 form {
@@ -59,7 +71,7 @@ class MainView : View("My View") {
                             }
                         }
                         field("Target URL") {
-                            textfield(newCheck.targetUrl){
+                            textfield(newCheck.targetUrl) {
                                 required()
                                 validator {
                                     urlValidation(it)
@@ -84,10 +96,10 @@ class MainView : View("My View") {
     }
 
     private fun ValidationContext.urlValidation(value: String?): ValidationMessage? {
-        if(value.isNullOrEmpty()) return null
+        if (value.isNullOrEmpty()) return null
         try {
-            val uri  = URI(value)
-            if(!uri.isAbsolute) {
+            val uri = URI(value)
+            if (!uri.isAbsolute) {
                 return error("not absolute url")
             }
         } catch (e: URISyntaxException) {
@@ -96,4 +108,7 @@ class MainView : View("My View") {
         return null
     }
 }
+
+
+
 

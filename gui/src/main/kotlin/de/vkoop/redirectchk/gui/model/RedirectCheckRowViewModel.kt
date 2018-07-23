@@ -16,6 +16,7 @@ class RedirectCheckRowViewModel(val request: RedirectCheckRequest) : ViewModel()
     val actualRedirectUrl = bind { response?.redirectHops?.lastOrNull()?.first.toProperty() }
     val firstCode = bind { response?.redirectHops?.firstOrNull()?.second.toProperty() }
 
+    val success = bind { response?.success.toProperty()}
 
     init {
         rebindOnChange(responseProperty)

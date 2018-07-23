@@ -14,11 +14,11 @@ class ExcelReader : RequestInputReader {
         val firstSheet = workbook.getSheetAt(0)
 
         return firstSheet.asIterable()
-                .map { mapRequestRow(it) }
+                .map { convertToRequest(it) }
                 .toList()
     }
 
-    private fun mapRequestRow(row: Row): RedirectCheckRequest {
+    private fun convertToRequest(row: Row): RedirectCheckRequest {
         val source = row.getCell(0)?.stringCellValue ?: ""
         val target = row.getCell(1)?.stringCellValue ?: ""
         val statusCode = row.getCell(2)?.numericCellValue?.toInt()  ?: 301
