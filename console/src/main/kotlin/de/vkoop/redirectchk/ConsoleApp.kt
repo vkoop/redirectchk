@@ -34,10 +34,10 @@ class CmdRunner : CommandLineRunner {
     override fun run(vararg args: String?) {
         if(args.isEmpty()) {
             println("Missing argument")
-            return;
+            return
         }
 
-        val fileName = args.get(0)!!
+        val fileName = args[0]!!
         val fileInputStream = FileInputStream(fileName)
 
         val checks = reader.read(fileInputStream)
