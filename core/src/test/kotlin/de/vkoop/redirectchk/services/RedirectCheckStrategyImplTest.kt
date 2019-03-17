@@ -10,7 +10,7 @@ import org.junit.runner.RunWith
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.junit4.SpringRunner
 import javax.inject.Inject
-import kotlin.test.assertTrue
+import kotlin.test.assertEquals
 
 @RunWith(SpringRunner::class)
 @SpringBootTest( classes = [ApplicationConfiguration::class])
@@ -43,6 +43,6 @@ class RedirectCheckStrategyImplTest {
         val request = RedirectCheckRequest("http://localhost:$port$sourceUrl", "http://localhost:$port$redirectUrl", 301)
 
         val response = checkStrategy.check(request)
-        assertTrue(response.redirectHops.last().first == request.targetUrl)
+        assertEquals(response.redirectHops.last().first, request.targetUrl)
     }
 }

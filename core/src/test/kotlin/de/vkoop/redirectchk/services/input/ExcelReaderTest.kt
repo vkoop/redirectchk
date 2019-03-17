@@ -17,7 +17,7 @@ class ExcelReaderTest {
 
         assertEquals(2, requests.size)
 
-        val request = requests.get(0)
+        val request = requests[0]
         assertEquals(301, request.statusCode)
         assertEquals("https://domain.local", request.callUrl)
         assertEquals("https://domain.local/redirect", request.targetUrl)
