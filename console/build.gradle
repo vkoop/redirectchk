@@ -1,5 +1,9 @@
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
+plugins {
+    id 'java'
+    id 'org.springframework.boot'
+    id 'io.spring.dependency-management'
+    id 'org.openjfx.javafxplugin' version '0.0.8'
+}
 
 dependencies {
     compile project(":core")
